@@ -1,0 +1,33 @@
+localwiki, (c) Tonimir Kisasondi,
+Distributed under GNU GPL
+
+Did you ever want a local wiki, editable in web browser or that can be populated by your scripts?
+Well, localwiki is such wiki, it uses bottle (http://bottlepy.org) to include a templating engine, wsgi and a webserver in one python file :)
+
+This is work in progress, so stay tuned for more improvements 
+
+How to use localwiki:
+
+Fetch both files
+
+run ./wiki.py
+
+Open localhost:8080 in your browser, which will show all available articles.
+
+use localhost:8080/foo to see article foo
+use localhost:8080/foo/edit to edit contents of foo
+use localhost:8080/foo/del to delete foo
+
+The wiki will create it's own database (wiki.db) which is a python shelve persistance object, so all data is stored there in key:value pairs.
+Shelve is just a on-disk dictionary, so you can open it in all your scripts and well, do what ever you want.
+
+And if you wonder why i created such a wierd interface, try the following in your browser:
+
+Ctrl+L (focuses on address bar)
+Tab (Focuses on entry window)
+Tab (Focuses on submit, enter, submitted :))
+
+So yes, the wiki is made for keyboard using users in mind...
+More keyboard focused improvements, smarter markup and more stuff in the next commit :)
+
+Have fun...
