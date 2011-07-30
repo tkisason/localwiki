@@ -8,6 +8,7 @@ db = shelve.open("database",writeback=True)
 style = "" # this element will be added in every view. Add your custom javascript/css here
 
 def wikify(data):
+    r = re.compile(r"(http://[^ \n]+)")
     out = ""
     keys = dict(zip(map(lambda x: string.lower(x),db.keys()),db.keys()))
     for elem in data.split(" "):
@@ -15,21 +16,20 @@ def wikify(data):
         if le in keys.keys():
             out += '<a href="/'+keys[le]+'">'+elem+'</a>'+" "
         else:
-            out += elem+" "
+
+            out += r.sub(r'<a href="\1">\1</a>', elem)+" "
+#            out += elem + " "
     return out 
     
 
 def markup(data):
-    r = re.compile(r"(http://[^ ]+)")
     data = style+wikify(data)
-    data = r.sub(r'<a href="\1">\1</a>', data) 
     return str(data.replace("\n","<br>"))
 
 @route("/")
 def print_pages():
     html =""
     for elem in db:
-#        html += "<a href="+markup(elem)+">"+markup(elem)+"</a><br>"
         html += markup(elem) + "<br>"
     return html
 
