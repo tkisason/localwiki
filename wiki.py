@@ -1,17 +1,34 @@
 #!/usr/bin/python
 
 from bottle import route,run,get,post,request
+import shelve, string
 
-import shelve
-db = shelve.open("wiki.db",writeback=True)
+db = shelve.open("database",writeback=True)
+
+style = "" # this element will be added in every view. Add your custom javascript/css here
+
+def wikify(data):
+    out = ""
+    keys = dict(zip(map(lambda x: string.lower(x),db.keys()),db.keys()))
+    for elem in data.split(" "):
+        le = string.lower(elem)
+        if le in keys.keys():
+            out += '<a href="/'+keys[le]+'">'+elem+'</a>'+" "
+        else:
+            out += elem+" "
+    return out 
+    
+
 def markup(data):
+    data = style+wikify(data)
     return str(data.replace("\n","<br>"))
 
 @route("/")
 def print_pages():
-    html = "<br>"
+    html =""
     for elem in db:
-        html += "<a href="+markup(elem)+">"+markup(elem)+"</a><br>"
+#        html += "<a href="+markup(elem)+">"+markup(elem)+"</a><br>"
+        html += markup(elem) + "<br>"
     return html
 
 @get("/:name")
@@ -46,3 +63,4 @@ run(host='localhost', port=8080)
 print "[+] Flushing data to db..."
 db.close()
 print "[+] Done, bye"
+
