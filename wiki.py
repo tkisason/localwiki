@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 from bottle import route,run,get,post,request
-import shelve, string
+import shelve, string,re
 
 db = shelve.open("database",writeback=True)
 
@@ -20,7 +20,9 @@ def wikify(data):
     
 
 def markup(data):
+    r = re.compile(r"(http://[^ ]+)")
     data = style+wikify(data)
+    data = r.sub(r'<a href="\1">\1</a>', data) 
     return str(data.replace("\n","<br>"))
 
 @route("/")
