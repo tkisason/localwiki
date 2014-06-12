@@ -18,10 +18,10 @@ use localhost:8080/foo to see article foo
 use localhost:8080/foo/edit to edit contents of foo
 use localhost:8080/foo/del to delete foo
 
-The wiki will create it's own database (wiki.db) which is a python shelve persistance object, so all data is stored there in key:value pairs.
+The wiki will create it's own database (database) which is a python shelve persistance object, so all data is stored there in key:value pairs.
 Shelve is just a on-disk dictionary, so you can open it in all your scripts and well, do what ever you want.
 
-And if you wonder why i created such a wierd interface, try the following in your browser:
+And if you wonder why i created such a weird interface, try the following in your browser:
 
 Ctrl+L (focuses on address bar)
 Tab (Focuses on entry window)
