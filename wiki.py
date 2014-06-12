@@ -41,7 +41,7 @@ def print_pages():
 
 @get("/:name")
 def get_page(name):
-    if db.has_key(name):
+    if name in db:
         return markup(db[name])
     else:
         return ""
@@ -49,7 +49,7 @@ def get_page(name):
 
 @get("/:name/:command")
 def node(name, command):
-    if db.has_key(name):
+    if name in db:
         cont = db[name]
     else:
         cont = ""
