@@ -7,8 +7,8 @@ import re
 
 db = shelve.open("database", writeback=True)
 
-style = ""  '''this element will be added in every view. Add your custom
-            javascript/css here'''
+style = ""  # this element will be added in every view. Add your custom
+            # javascript/css here
 
 
 def wikify(data):
