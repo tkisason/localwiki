@@ -19,8 +19,8 @@ def wikify(data):
 
             out += r.sub(r'<a href="\1">\1</a>', elem)+" "
 #            out += elem + " "
-    return out 
-    
+    return out
+
 
 def markup(data):
     data = style+wikify(data)
