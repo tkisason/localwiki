@@ -5,7 +5,8 @@ import shelve, string,re
 
 db = shelve.open("database",writeback=True)
 
-style = "" # this element will be added in every view. Add your custom javascript/css here
+style = ""  # this element will be added in every view. Add your custom javascript/css here
+
 
 def wikify(data):
     r = re.compile(r"(http://[^ \n]+)")
@@ -26,6 +27,7 @@ def markup(data):
     data = style+wikify(data)
     return str(data.replace("\n","<br>"))
 
+
 @route("/")
 def print_pages():
     html =""
@@ -33,12 +35,14 @@ def print_pages():
         html += markup(elem) + "<br>"
     return html
 
+
 @get("/:name")
 def get_page(name):
     if db.has_key(name):
         return markup(db[name])
     else:
         return ""
+
 
 @get("/:name/:command")
 def node(name,command):
@@ -54,6 +58,7 @@ def node(name,command):
     else:
         return "Unknown command: ", command
 
+
 @post('/:name/:command')
 def node_submit(name,command):
     cont  = request.forms.get('content')
@@ -65,4 +70,3 @@ run(host='localhost', port=8080)
 print "[+] Flushing data to db..."
 db.close()
 print "[+] Done, bye"
-
