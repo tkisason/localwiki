@@ -1,17 +1,20 @@
 #!/usr/bin/python
 
-from bottle import route,run,get,post,request
-import shelve, string,re
+from bottle import route, run, get, post, request
+import shelve
+import string
+import re
 
-db = shelve.open("database",writeback=True)
+db = shelve.open("database", writeback=True)
 
-style = ""  # this element will be added in every view. Add your custom javascript/css here
+style = ""  '''this element will be added in every view. Add your custom
+            javascript/css here'''
 
 
 def wikify(data):
     r = re.compile(r"(http://[^ \n]+)")
     out = ""
-    keys = dict(zip(map(lambda x: string.lower(x),db.keys()),db.keys()))
+    keys = dict(zip(map(lambda x: string.lower(x), db.keys()), db.keys()))
     for elem in data.split(" "):
         le = string.lower(elem)
         if le in keys.keys():
@@ -25,12 +28,12 @@ def wikify(data):
 
 def markup(data):
     data = style+wikify(data)
-    return str(data.replace("\n","<br>"))
+    return str(data.replace("\n", "<br>"))
 
 
 @route("/")
 def print_pages():
-    html =""
+    html = ""
     for elem in db:
         html += markup(elem) + "<br>"
     return html
@@ -45,13 +48,15 @@ def get_page(name):
 
 
 @get("/:name/:command")
-def node(name,command):
+def node(name, command):
     if db.has_key(name):
         cont = db[name]
     else:
         cont = ""
     if command == "edit":
-        return str('<form method="POST"><textarea name="content" type="text" rows="40" cols="120">'+cont+'</textarea><br><input type="submit" value="submit" /></form>')
+        return str('<form method="POST"><textarea name="content" type="text"'
+                   'rows="40" cols="120">'+cont+'</textarea><br><input '
+                   'type="submit" value="submit" /></form>')
     elif command == "del":
         db.pop(name)
         return str("Deleted: "+name)
@@ -60,8 +65,8 @@ def node(name,command):
 
 
 @post('/:name/:command')
-def node_submit(name,command):
-    cont  = request.forms.get('content')
+def node_submit(name, command):
+    cont = request.forms.get('content')
     db[name] = cont
     return markup(cont)
 
