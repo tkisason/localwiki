@@ -1,18 +1,12 @@
 #!/usr/bin/python
 
-from bottle import route, run, get, post, request
+from bottle import route, run, get, post, request, redirect
 import shelve
 import string
 import re
-
-db = shelve.open("database", writeback=True)
-
-style = ""  # this element will be added in every view. Add your custom
-            # javascript/css here
-
+#spoljos frankenstein modulez
 
 def wikify(data):
-    r = re.compile(r"(http://[^ \n]+)")
     out = ""
     keys = dict(zip(map(lambda x: string.lower(x), db.keys()), db.keys()))
     for elem in data.split(" "):
@@ -44,7 +38,7 @@ def get_page(name):
     if name in db:
         return markup(db[name])
     else:
-        return ""
+        return redirect("/%s/edit"%name)
 
 
 @get("/:name/:command")
@@ -70,8 +64,13 @@ def node_submit(name, command):
     db[name] = cont
     return markup(cont)
 
-
-run(host='localhost', port=8080)
-print "[+] Flushing data to db..."
-db.close()
-print "[+] Done, bye"
+if __name__ == "__main__":
+    db = shelve.open("database", writeback=True)
+    style = ""  # this element will be added in every view. Add your custom
+                # javascript/css here
+    r = re.compile(r"(http://[^ \n]+)")#dont compile regex on every request
+                                       #do it once on startup
+    run(host='127.0.0.1', port=8000)
+    print "[+] Flushing data to db..."
+    db.close()
+    print "[+] Done, bye"
