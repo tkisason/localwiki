@@ -38,7 +38,7 @@ def get_page(name):
     if name in db:
         return markup(db[name])
     else:
-        return redirect("/%s/edit"%name)
+        return redirect("/%s/edit" % name)
 
 
 @get("/:name/:command")
@@ -68,8 +68,8 @@ if __name__ == "__main__":
     db = shelve.open("database", writeback=True)
     style = ""  # this element will be added in every view. Add your custom
                 # javascript/css here
-    r = re.compile(r"(http://[^ \n]+)")#dont compile regex on every request
-                                       #do it once on startup
+    r = re.compile(r"(http://[^ \n]+)")  # Don't compile regex on every request
+                                         # do it once on startup
     run(host='127.0.0.1', port=8000)
     print "[+] Flushing data to db..."
     db.close()
