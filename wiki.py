@@ -8,7 +8,7 @@ import re
 
 def wikify(data):
     out = ""
-    keys = dict(zip(map(lambda x: string.lower(x), db.keys()), db.keys()))
+    keys = dict(zip([string.lower(x) for x in db.keys()], db.keys()))
     for elem in data.split(" "):
         le = string.lower(elem)
         if le in keys.keys():
