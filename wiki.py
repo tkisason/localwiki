@@ -8,9 +8,9 @@ import re
 
 def wikify(data):
     out = ""
-    keys = dict(zip([string.lower(x) for x in db.keys()], db.keys()))
+    keys = dict(zip([x.lower() for x in db.keys()], db.keys()))
     for elem in data.split(" "):
-        le = string.lower(elem)
+        le = elem.lower()
         if le in keys.keys():
             out += '<a href="/'+keys[le]+'">'+elem+'</a>'+" "
         else:
