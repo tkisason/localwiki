@@ -13,9 +13,8 @@ def wikify(data):
         if le in keys.keys():
             out += '<a href="/'+keys[le]+'">'+elem+'</a>'+" "
         else:
-
             out += r.sub(r'<a href="\1">\1</a>', elem)+" "
-#            out += elem + " "
+
     return out
 
 
