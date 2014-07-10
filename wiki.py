@@ -2,7 +2,6 @@
 
 from bottle import route, run, get, post, request, redirect
 import shelve
-import string
 import re
 
 
