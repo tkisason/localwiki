@@ -2,21 +2,18 @@
 
 from bottle import route, run, get, post, request, redirect
 import shelve
-import string
 import re
 
 
 def wikify(data):
     out = ""
-    keys = dict(zip(map(lambda x: string.lower(x), db.keys()), db.keys()))
+    keys = dict(zip([x.lower() for x in db.keys()], db.keys()))
     for elem in data.split(" "):
-        le = string.lower(elem)
+        le = elem.lower()
         if le in keys.keys():
             out += '<a href="/'+keys[le]+'">'+elem+'</a>'+" "
         else:
-
             out += r.sub(r'<a href="\1">\1</a>', elem)+" "
-#            out += elem + " "
     return out
 
 
@@ -63,6 +60,7 @@ def node_submit(name, command):
     cont = request.forms.get('content')
     db[name] = cont
     return markup(cont)
+
 
 if __name__ == "__main__":
     db = shelve.open("database", writeback=True)
